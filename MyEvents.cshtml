@@ -1,0 +1,31 @@
+@model List<RaceDayMVC.Models.EnrollmentDto>
+@{ ViewData["Title"] = "My Results"; }
+
+<h2>My Enrolments & Results</h2>
+<table class="table table-dark table-striped mt-4">
+    <thead>
+        <tr>
+            <th>Event Name</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Finish Time</th>
+            <th>Position</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EventName</td>
+                <td>@item.Category</td>
+                <td>
+                    <span class="@(item.Status == "Confirmed" ? "status-confirmed" : "status-pending")">
+                        @item.Status
+                    </span>
+                </td>
+                <td>@(string.IsNullOrEmpty(item.FinishTime) ? "-" : item.FinishTime)</td>
+                <td>@(item.FinishingPosition?.ToString() ?? "-")</td>
+            </tr>
+        }
+    </tbody>
+</table>
