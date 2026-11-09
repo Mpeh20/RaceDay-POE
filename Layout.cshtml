@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - RaceDay</title>
+    <!-- Use a sporty Bootswatch theme like "Cyborg" or "Vapor" -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/cyborg/bootstrap.min.css" />
+    <style>
+        /* Custom Sporty CSS */
+        body { font-family: 'Oswald', sans-serif; background-color: #121212; color: #fff; }
+        .navbar { background-color: #ff5722 !important; } /* Energetic orange */
+        .btn-primary { background-color: #ff5722; border-color: #ff5722; }
+        .status-confirmed { color: #4caf50; font-weight: bold; }
+        .status-pending { color: #ff9800; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">RaceDay</a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Organiser"))
+                            {
+                                <li class="nav-item"><a class="nav-link" asp-controller="Organiser" asp-action="Dashboard">Organiser Dashboard</a></li>
+                            }
+                            else if (User.IsInRole("Participant"))
+                            {
+                                <li class="nav-item"><a class="nav-link" asp-controller="Participant" asp-action="Index">Upcoming Events</a></li>
+                                <li class="nav-item"><a class="nav-link" asp-controller="Participant" asp-action="MyEvents">My Results</a></li>
+                            }
+                        }
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Logout</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Login</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+</body>
+</html>
